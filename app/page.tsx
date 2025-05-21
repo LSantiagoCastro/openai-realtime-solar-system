@@ -1,9 +1,9 @@
-import App from "@/components/app";
+"use client";
 
-export default function Main() {
-  return (
-    <div className="relative size-full">
-      <App />
-    </div>
-  );
+import dynamic from 'next/dynamic';
+
+const EcommerceApp = dynamic(() => import('@/components/ecommerce-app'), { ssr: false });
+
+export default function Home() {
+  return <EcommerceApp />;
 }
