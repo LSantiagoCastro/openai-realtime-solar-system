@@ -252,16 +252,22 @@ export default function EcommerceApp() {
         const event = JSON.parse(e.data);
         if (event.type === "response.done") {
           const output = event.response.output[0];
-          setLogs((prev) => [output, ...prev]);
           
-          // Handle transcription
-          if (output?.type === "text") {
-            setTranscript((prev) => prev + output.text);
-          }
-          
-          // Handle function calls
-          if (output?.type === "function_call") {
-            handleToolCall(output);
+          // Verificar que output existe antes de añadirlo a los logs
+          if (output && typeof output === 'object') {
+            setLogs((prev) => [output, ...prev]);
+            
+            // Handle transcription
+            if (output?.type === "text") {
+              setTranscript((prev) => prev + output.text);
+            }
+            
+            // Handle function calls
+            if (output?.type === "function_call") {
+              handleToolCall(output);
+            }
+          } else {
+            console.warn("Received empty or invalid output:", output);
           }
         }
       });
@@ -272,6 +278,8 @@ export default function EcommerceApp() {
         setIsListening(true);
         setLogs([]);
         setTranscript("");
+        setToolCall(null);
+        
         // Send session config
         const sessionUpdate = {
           type: "session.update",
@@ -405,33 +413,47 @@ export default function EcommerceApp() {
           </div>
           
           <div>
+            {/* Session Log Section */}
             <div className="bg-white p-6 rounded-lg shadow-md">
               <h2 className="text-xl font-semibold mb-4">Session Log</h2>
               <div className="overflow-y-auto max-h-[600px]">
-                {logs.map((log, index) => (
-                  <div key={index} className="mb-3 p-2 border-b">
-                    <div className="text-xs text-gray-500 mb-1">
-                      {log.type}
-                    </div>
-                    <div>
-                      {log.type === "text" ? (
-                        <p>{log.text}</p>
-                      ) : log.type === "function_call" ? (
-                        <div>
-                          <p className="font-medium">{log.name}</p>
-                          <pre className="text-xs bg-gray-50 p-1 mt-1 rounded overflow-x-auto">
-                            {log.arguments}
-                          </pre>
-                        </div>
+                {logs && logs.length > 0 ? (
+                  logs.map((log, index) => (
+                    <div key={index} className="mb-3 p-2 border-b">
+                      {log ? (
+                        <>
+                          <div className="text-xs text-gray-500 mb-1 flex justify-between">
+                            <span>{log.type}</span>
+                            <span className="text-gray-400">{index + 1}</span>
+                          </div>
+                          <div>
+                            {log.type === "text" ? (
+                              <p>{log.text}</p>
+                            ) : log.type === "function_call" ? (
+                              <div>
+                                <div className="flex items-center gap-2">
+                                  <span className="bg-blue-100 text-blue-800 px-2 py-0.5 rounded-full text-xs font-medium">function</span>
+                                  <p className="font-medium">{log.name}</p>
+                                </div>
+                                <pre className="text-xs bg-gray-50 p-2 mt-1 rounded overflow-x-auto">
+                                  {log.arguments}
+                                </pre>
+                              </div>
+                            ) : (
+                              <p className="text-gray-500 italic">
+                                Tipo de log no soportado: {log.type}
+                              </p>
+                            )}
+                          </div>
+                        </>
                       ) : (
                         <p className="text-gray-500 italic">
-                          Unsupported log type
+                          Log entry missing or corrupted
                         </p>
                       )}
                     </div>
-                  </div>
-                ))}
-                {logs.length === 0 && (
+                  ))
+                ) : (
                   <p className="text-gray-400 italic text-center py-4">
                     No activity yet
                   </p>
