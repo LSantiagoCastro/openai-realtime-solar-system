@@ -323,7 +323,10 @@ export default function EcommerceApp() {
     <div className="relative min-h-screen bg-gray-100">
       <div className="p-4 max-w-6xl mx-auto">
         <header className="mb-8 text-center">
-          <h1 className="text-3xl font-bold mb-2">Voice Shopping Assistant</h1>
+          <div className="flex items-center justify-center gap-4 mb-3">
+            <img src="/icon.png" alt="Shopping Assistant Icon" className="w-24 h-24" />
+            <h1 className="text-3xl font-bold">Voice Shopping Assistant</h1>
+          </div>
           <p className="text-gray-600">Ask for products using your voice</p>
         </header>
         
