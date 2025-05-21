@@ -12,11 +12,11 @@ type ProductResult = {
 // Mock product data
 const mockProducts: ProductResult[] = [
   { name: "Classic Running Sneakers", category: "sneakers", color: "red", price: 79.99, imageUrl: "/images/red-sneakers.jpg" },
-  { name: "Premium Training Shoes", category: "sneakers", color: "red", price: 99.99, imageUrl: "/images/red-sneakers.jpg" },
+  { name: "Premium Training Shoes", category: "sneakers", color: "red", price: 99.99, imageUrl: "/images/red-sneakers-2.jpg" },
   { name: "Lightweight Running Shoes", category: "sneakers", color: "red", price: 89.99, imageUrl: "/images/red-sneakers.jpg" },
-  { name: "Casual Canvas Shoes", category: "sneakers", color: "blue", price: 49.99 },
-  { name: "Cotton T-Shirt", category: "shirts", color: "blue", price: 19.99 },
-  { name: "Formal Button Down", category: "shirts", color: "blue", price: 59.99 },
+  { name: "Casual Canvas Shoes", category: "sneakers", color: "blue", price: 49.99, imageUrl: "/images/blue-sneakers.jpg" },
+  { name: "Cotton T-Shirt", category: "shirts", color: "pink", price: 19.99, imageUrl: "/images/pink-shirt-men.jpg" },
+  { name: "Designer Luxury Shirt", category: "shirts", color: "black", price: 129.99, imageUrl: "/images/black-gucci-shirt-men.jpg" },
   { name: "Classic Oxford Shirt", category: "shirts", color: "white", price: 49.99 },
   { name: "Leather Jacket", category: "jackets", color: "black", price: 149.99 },
   { name: "Winter Parka", category: "jackets", color: "black", price: 199.99 },
@@ -29,8 +29,18 @@ type ProductResultsProps = {
 // Mapeo de términos en español a inglés
 const categoryMapping: Record<string, string> = {
   "zapatillas": "sneakers",
+  "zapatilla": "sneakers",
+  "tenis": "sneakers",
+  "calzado deportivo": "sneakers",
   "camisas": "shirts",
-  "chaquetas": "jackets"
+  "camisa": "shirts",
+  "playera": "shirts",
+  "polera": "shirts",
+  "remera": "shirts",
+  "chaquetas": "jackets",
+  "chaqueta": "jackets",
+  "abrigo": "jackets",
+  "chamarra": "jackets"
 };
 
 const colorMapping: Record<string, string> = {
@@ -41,7 +51,10 @@ const colorMapping: Record<string, string> = {
   "blancas": "white",
   "blanco": "white",
   "negras": "black",
-  "negro": "black"
+  "negro": "black",
+  "rosadas": "pink",
+  "rosa": "pink",
+  "rosado": "pink"
 };
 
 export default function ProductResults({ toolCall }: ProductResultsProps) {
