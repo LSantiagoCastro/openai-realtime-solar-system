@@ -247,7 +247,7 @@ export default function EcommerceApp() {
           const mockProducts = [
             { name: "Classic Running Sneakers", category: "sneakers", color: "red", price: 79.99, imageUrl: "/images/red-sneakers.jpg" },
             { name: "Premium Training Shoes", category: "sneakers", color: "red", price: 99.99, imageUrl: "/images/red-sneakers-2.jpg" },
-            { name: "Lightweight Running Shoes", category: "sneakers", color: "red", price: 89.99, imageUrl: "/images/red-sneakers.jpg" },
+            { name: "Lightweight Running Shoes", category: "sneakers", color: "red", price: 89.99, imageUrl: "/images/red-sneaker-3.jpg" },
             { name: "Casual Canvas Shoes", category: "sneakers", color: "blue", price: 49.99, imageUrl: "/images/blue-sneakers.jpg" },
             { name: "Cotton T-Shirt", category: "shirts", color: "pink", price: 19.99, imageUrl: "/images/pink-shirt-men.jpg" },
             { name: "Designer Luxury Shirt", category: "shirts", color: "black", price: 129.99, imageUrl: "/images/black-gucci-shirt-men.jpg" },
@@ -428,14 +428,14 @@ export default function EcommerceApp() {
   };
 
   return (
-    <div className="relative min-h-screen bg-gray-100">
+    <div className="relative min-h-screen bg-[var(--bg-primary)] text-[var(--text-primary)]">
       <div className="p-4 max-w-6xl mx-auto">
         <header className="mb-6 text-center">
           <div className="flex items-center justify-center gap-4 mb-3">
             <img src="/icon.png" alt="Shopping Assistant Icon" className="w-16 h-16" />
-            <h1 className="text-3xl font-bold">Voice Shopping Assistant</h1>
+            <h1 className="text-3xl font-bold text-[var(--text-primary)]">Voice Shopping Assistant</h1>
           </div>
-          <p className="text-gray-600">Navega el catálogo con tu voz - prueba diciendo "Muéstrame zapatillas rojas"</p>
+          <p className="text-[var(--text-secondary)]">Navigate our catalog using your voice - try saying "Show me red sneakers"</p>
         </header>
         
         {/* Sección principal - Carrusel primero */}
@@ -447,98 +447,80 @@ export default function EcommerceApp() {
           )}
         </section>
         
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="md:col-span-2">
-            <div className="bg-white p-6 rounded-lg shadow-md">
-              <h2 className="text-xl font-semibold mb-4">Tu solicitud por voz</h2>
-              <div className="p-4 bg-gray-50 rounded-md min-h-36 mb-4">
-                {transcript ? (
-                  <p>{transcript}</p>
-                ) : (
-                  <p className="text-gray-400 italic">
-                    Presiona el botón del micrófono y comienza a hablar...
-                  </p>
-                )}
-              </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="md:col-span-1">
+            <div className="bg-[var(--bg-secondary)] p-4 rounded-lg shadow-md border border-[var(--border-color)]">
+              <h2 className="text-xl font-semibold mb-3 text-[var(--text-primary)]">Your Voice Request</h2>
               
-              <div className="flex gap-3 justify-center">
+              <div className="flex gap-2 justify-center">
                 <button
                   onClick={handleConnectClick}
-                  className={`px-4 py-2 rounded-full font-medium ${
+                  className={`px-3 py-1.5 rounded-full font-medium ${
                     isSessionActive
                       ? "bg-red-500 hover:bg-red-600 text-white"
-                      : "bg-blue-500 hover:bg-blue-600 text-white"
+                      : "bg-[var(--accent-primary)] hover:bg-[var(--accent-secondary)] text-white"
                   }`}
                 >
-                  {isSessionActive ? "Desconectar" : "Conectar"}
+                  {isSessionActive ? "Disconnect" : "Connect"}
                 </button>
                 
-                <button
-                  onClick={handleMicToggleClick}
-                  disabled={!isSessionActive}
-                  className={`px-4 py-2 rounded-full font-medium ${
-                    isListening
-                      ? "bg-red-500 hover:bg-red-600 text-white"
-                      : "bg-green-500 hover:bg-green-600 text-white"
-                  } ${!isSessionActive ? "opacity-50 cursor-not-allowed" : ""}`}
-                >
-                  {isListening ? "Silenciar" : "Hablar"}
-                </button>
+                {isSessionActive && (
+                  <button
+                    onClick={handleMicToggleClick}
+                    className={`px-3 py-1.5 rounded-full font-medium ${
+                      isListening
+                        ? "bg-red-500 hover:bg-red-600 text-white"
+                        : "bg-green-500 hover:bg-green-600 text-white"
+                    }`}
+                  >
+                    {isListening ? "Mute" : "Speak"}
+                  </button>
+                )}
                 
                 <button
                   onClick={handleResetClick}
-                  className="px-4 py-2 rounded-full font-medium bg-gray-200 hover:bg-gray-300"
+                  className="px-3 py-1.5 rounded-full font-medium bg-gray-600 hover:bg-gray-700 text-white"
                 >
-                  Reiniciar
+                  Reset
                 </button>
               </div>
+              
+              {transcript && (
+                <div className="mt-3 p-2 bg-[var(--bg-tertiary)] rounded-md">
+                  <p className="text-sm text-[var(--text-secondary)]">{transcript}</p>
+                </div>
+              )}
             </div>
           </div>
           
           <div>
             {/* Session Log Section */}
-            <div className="bg-white p-6 rounded-lg shadow-md">
-              <h2 className="text-xl font-semibold mb-4">Registro de Sesión</h2>
-              <div className="overflow-y-auto max-h-[300px]">
+            <div className="bg-[var(--bg-secondary)] p-4 rounded-lg shadow-md border border-[var(--border-color)]">
+              <h2 className="text-xl font-semibold mb-3 text-[var(--text-primary)]">Session Log</h2>
+              <div className="overflow-y-auto max-h-[250px]">
                 {logs && logs.length > 0 ? (
-                  logs.map((log, index) => (
-                    <div key={index} className="mb-3 p-2 border-b">
-                      {log ? (
-                        <>
-                          <div className="text-xs text-gray-500 mb-1 flex justify-between">
-                            <span>{log.type}</span>
-                            <span className="text-gray-400">{index + 1}</span>
+                  logs
+                    .filter(log => log && log.type === "function_call") // Filtrar solo function_call
+                    .map((log, index) => (
+                      <div key={index} className="mb-3 p-2 border-b border-[var(--border-color)]">
+                        <div className="text-xs text-[var(--text-muted)] mb-1 flex justify-between">
+                          <span>{log.type}</span>
+                          <span className="text-[var(--text-muted)]">{index + 1}</span>
+                        </div>
+                        <div>
+                          <div className="flex items-center gap-2">
+                            <span className="bg-gray-700 px-2 py-0.5 rounded-full text-xs font-medium text-gray-300">function</span>
+                            <p className="font-medium">{log.name}</p>
                           </div>
-                          <div>
-                            {log.type === "text" ? (
-                              <p>{log.text}</p>
-                            ) : log.type === "function_call" ? (
-                              <div>
-                                <div className="flex items-center gap-2">
-                                  <span className="bg-blue-100 text-blue-800 px-2 py-0.5 rounded-full text-xs font-medium">function</span>
-                                  <p className="font-medium">{log.name}</p>
-                                </div>
-                                <pre className="text-xs bg-gray-50 p-2 mt-1 rounded overflow-x-auto">
-                                  {log.arguments}
-                                </pre>
-                              </div>
-                            ) : (
-                              <p className="text-gray-500 italic">
-                                Tipo de log no soportado: {log.type}
-                              </p>
-                            )}
-                          </div>
-                        </>
-                      ) : (
-                        <p className="text-gray-500 italic">
-                          Entrada de registro faltante o corrupta
-                        </p>
-                      )}
-                    </div>
-                  ))
+                          <pre className="text-xs bg-[var(--bg-tertiary)] p-2 mt-1 rounded overflow-x-auto text-[var(--text-secondary)]">
+                            {log.arguments}
+                          </pre>
+                        </div>
+                      </div>
+                    ))
                 ) : (
-                  <p className="text-gray-400 italic text-center py-4">
-                    No hay actividad todavía
+                  <p className="text-[var(--text-muted)] italic text-center py-4">
+                    No function calls yet
                   </p>
                 )}
               </div>
@@ -548,18 +530,18 @@ export default function EcommerceApp() {
         
         {/* Historial de búsquedas */}
         {searchHistory.length > 0 && (
-          <div className="mt-6 bg-white p-6 rounded-lg shadow-md">
-            <h2 className="text-xl font-semibold mb-4">Historial de búsquedas</h2>
-            <div className="space-y-3 max-h-[300px] overflow-y-auto pr-2">
+          <div className="mt-6 bg-[var(--bg-secondary)] p-4 rounded-lg shadow-md border border-[var(--border-color)]">
+            <h2 className="text-xl font-semibold mb-3 text-[var(--text-primary)]">Search History</h2>
+            <div className="space-y-3 max-h-[250px] overflow-y-auto pr-2">
               {searchHistory.map((item) => (
                 <div 
                   key={item.id} 
-                  className="p-3 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors"
+                  className="p-3 bg-[var(--bg-tertiary)] rounded-lg hover:bg-[var(--card-highlight)] transition-colors"
                 >
                   <div className="flex items-start">
                     {/* Imagen del producto */}
                     {item.imageUrl && (
-                      <div className="w-16 h-16 rounded overflow-hidden flex-shrink-0 mr-3 bg-white border">
+                      <div className="w-16 h-16 rounded overflow-hidden flex-shrink-0 mr-3 bg-[var(--card-bg)] border border-[var(--border-color)]">
                         <img 
                           src={item.imageUrl} 
                           alt="Product image"
@@ -567,8 +549,8 @@ export default function EcommerceApp() {
                           onError={(e) => {
                             e.currentTarget.style.display = 'none';
                             e.currentTarget.parentElement!.innerHTML = `
-                              <div class="w-full h-full flex items-center justify-center bg-gray-200">
-                                <span class="text-xs text-gray-500">No image</span>
+                              <div class="w-full h-full flex items-center justify-center bg-[var(--bg-tertiary)]">
+                                <span class="text-xs text-[var(--text-muted)]">No image</span>
                               </div>
                             `;
                           }}
@@ -577,23 +559,23 @@ export default function EcommerceApp() {
                     )}
                     
                     <div className="flex-grow">
-                      <p className="text-sm text-gray-500">
+                      <p className="text-sm text-[var(--text-muted)]">
                         {item.timestamp.toLocaleTimeString()}
                       </p>
-                      <p className="font-medium">{item.query}</p>
+                      <p className="font-medium text-[var(--text-primary)]">{item.query}</p>
                       <div className="flex flex-wrap gap-2 mt-1">
                         {item.filters.category && (
-                          <span className="px-2 py-1 bg-blue-100 text-blue-800 rounded-full text-xs">
+                          <span className="px-2 py-1 bg-gray-700 text-gray-300 rounded-full text-xs">
                             {item.filters.category}
                           </span>
                         )}
                         {item.filters.color && (
-                          <span className="px-2 py-1 bg-purple-100 text-purple-800 rounded-full text-xs">
+                          <span className="px-2 py-1 bg-gray-700 text-gray-300 rounded-full text-xs">
                             {item.filters.color}
                           </span>
                         )}
                         {item.filters.maxPrice && (
-                          <span className="px-2 py-1 bg-green-100 text-green-800 rounded-full text-xs">
+                          <span className="px-2 py-1 bg-gray-700 text-gray-300 rounded-full text-xs">
                             &lt; ${item.filters.maxPrice}
                           </span>
                         )}

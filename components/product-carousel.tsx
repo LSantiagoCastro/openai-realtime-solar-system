@@ -136,7 +136,7 @@ const ProductCarousel: React.FC<ProductCarouselProps> = ({ products, highlighted
   }, [highlighted, products]);
 
   return (
-    <div className="relative w-full h-[600px] flex items-center justify-center overflow-hidden bg-gradient-to-b from-blue-50 to-gray-100 rounded-xl shadow-inner">
+    <div className="relative w-full h-[600px] flex items-center justify-center overflow-hidden bg-gradient-to-b from-[var(--bg-secondary)] to-[var(--bg-primary)] rounded-xl shadow-inner border border-[var(--border-color)]">
       <div 
         className="carousel-container perspective-1000"
         onMouseDown={handleMouseDown}
@@ -171,14 +171,14 @@ const ProductCarousel: React.FC<ProductCarouselProps> = ({ products, highlighted
               marginTop: '-150px', // La mitad de la altura
               backfaceVisibility: 'hidden',
               boxShadow: highlighted.includes(String(index)) 
-                ? '0 0 30px rgba(59, 130, 246, 0.8)' 
-                : '0 4px 15px rgba(0,0,0,0.2)'
+                ? '0 0 30px rgba(77, 124, 254, 0.8)' 
+                : '0 4px 15px rgba(0,0,0,0.4)'
             }}
           >
-            <div className="w-full h-full bg-white rounded-lg overflow-hidden flex flex-col shadow-lg">
+            <div className="w-full h-full bg-[var(--card-bg)] rounded-lg overflow-hidden flex flex-col shadow-lg border border-[var(--border-color)]">
               <div 
-                className="h-[180px] bg-gray-100 flex items-center justify-center overflow-hidden"
-                style={{ backgroundColor: product.color || '#f3f4f6' }}
+                className="h-[180px] bg-gray-900 flex items-center justify-center overflow-hidden"
+                style={{ backgroundColor: product.color || 'var(--bg-tertiary)' }}
               >
                 {product.imageUrl ? (
                   <img 
@@ -188,23 +188,23 @@ const ProductCarousel: React.FC<ProductCarouselProps> = ({ products, highlighted
                     onError={(e) => {
                       e.currentTarget.style.display = 'none';
                       e.currentTarget.parentElement!.innerHTML += `<div class="flex items-center justify-center h-full">
-                        <span class="text-3xl font-bold text-white">${product.category.charAt(0).toUpperCase()}</span>
+                        <span class="text-3xl font-bold text-[var(--text-secondary)]">${product.category.charAt(0).toUpperCase()}</span>
                       </div>`;
                     }}
                   />
                 ) : (
-                  <span className="text-3xl font-bold text-white">
+                  <span className="text-3xl font-bold text-[var(--text-secondary)]">
                     {product.category.charAt(0).toUpperCase()}
                   </span>
                 )}
               </div>
               <div className="p-4 flex-grow flex flex-col justify-between">
-                <h3 className="font-medium text-base truncate">{product.name}</h3>
+                <h3 className="font-medium text-base truncate text-[var(--text-primary)]">{product.name}</h3>
                 <div className="mt-2">
-                  <p className="text-green-700 font-bold text-lg">${product.price.toFixed(2)}</p>
+                  <p className="text-green-400 font-bold text-lg">${product.price.toFixed(2)}</p>
                   <div className="flex items-center mt-2">
                     {product.color && (
-                      <span className="px-3 py-1 bg-gray-100 text-gray-800 rounded-full text-sm">
+                      <span className="px-3 py-1 bg-[var(--bg-tertiary)] text-[var(--text-secondary)] rounded-full text-sm">
                         {product.color}
                       </span>
                     )}
@@ -218,18 +218,18 @@ const ProductCarousel: React.FC<ProductCarouselProps> = ({ products, highlighted
       
       {/* Título del carrusel */}
       <div className="absolute top-4 left-0 right-0 text-center">
-        <h2 className="text-2xl font-bold text-gray-800">Catálogo de Productos</h2>
-        <p className="text-gray-600 mt-1">
+        <h2 className="text-2xl font-bold text-[var(--text-primary)]">Product Catalog</h2>
+        <p className="text-[var(--text-secondary)] mt-1">
           {highlighted.length > 0 
-            ? `${highlighted.length} productos destacados` 
-            : 'Explora nuestros productos usando tu voz'}
+            ? `${highlighted.length} highlighted products` 
+            : 'Explore our products using your voice'}
         </p>
       </div>
       
       {/* Controles adicionales */}
       <div className="absolute bottom-6 left-0 right-0 flex justify-center gap-6">
         <button 
-          className="p-3 bg-white rounded-full shadow-md hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-400"
+          className="p-3 bg-[var(--bg-secondary)] rounded-full shadow-md hover:bg-[var(--bg-tertiary)] focus:outline-none focus:ring-2 focus:ring-[var(--accent-primary)] text-[var(--text-primary)] border border-[var(--border-color)]"
           onClick={() => setRotation(prev => prev - 36)}
           aria-label="Girar a la izquierda"
         >
@@ -238,7 +238,7 @@ const ProductCarousel: React.FC<ProductCarouselProps> = ({ products, highlighted
           </svg>
         </button>
         <button 
-          className="p-3 bg-white rounded-full shadow-md hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-400"
+          className="p-3 bg-[var(--bg-secondary)] rounded-full shadow-md hover:bg-[var(--bg-tertiary)] focus:outline-none focus:ring-2 focus:ring-[var(--accent-primary)] text-[var(--text-primary)] border border-[var(--border-color)]"
           onClick={() => setRotation(prev => prev + 36)}
           aria-label="Girar a la derecha"
         >
@@ -261,13 +261,13 @@ const ProductCarousel: React.FC<ProductCarouselProps> = ({ products, highlighted
         .product-card:hover {
           transform: scale(1.05) translateZ(50px) !important;
           z-index: 1000 !important;
-          box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3) !important;
+          box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5) !important;
         }
         
         @keyframes pulse {
-          0% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.7); }
-          70% { box-shadow: 0 0 0 20px rgba(59, 130, 246, 0); }
-          100% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0); }
+          0% { box-shadow: 0 0 0 0 rgba(77, 124, 254, 0.7); }
+          70% { box-shadow: 0 0 0 20px rgba(77, 124, 254, 0); }
+          100% { box-shadow: 0 0 0 0 rgba(77, 124, 254, 0); }
         }
       `}</style>
     </div>

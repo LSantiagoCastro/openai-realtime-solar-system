@@ -14,7 +14,7 @@ type ProductResult = {
 const mockProducts: ProductResult[] = [
   { name: "Classic Running Sneakers", category: "sneakers", color: "red", price: 79.99, imageUrl: "/images/red-sneakers.jpg" },
   { name: "Premium Training Shoes", category: "sneakers", color: "red", price: 99.99, imageUrl: "/images/red-sneakers-2.jpg" },
-  { name: "Lightweight Running Shoes", category: "sneakers", color: "red", price: 89.99, imageUrl: "/images/red-sneakers.jpg" },
+  { name: "Lightweight Running Shoes", category: "sneakers", color: "red", price: 89.99, imageUrl: "/images/red-sneaker-3.jpg" },
   { name: "Casual Canvas Shoes", category: "sneakers", color: "blue", price: 49.99, imageUrl: "/images/blue-sneakers.jpg" },
   { name: "Cotton T-Shirt", category: "shirts", color: "pink", price: 19.99, imageUrl: "/images/pink-shirt-men.jpg" },
   { name: "Designer Luxury Shirt", category: "shirts", color: "black", price: 129.99, imageUrl: "/images/black-gucci-shirt-men.jpg" },
@@ -192,36 +192,36 @@ export default function ProductResults({ toolCall }: ProductResultsProps) {
       
       {/* Información del filtro aplicado (si existe) */}
       {hasFilters && (
-        <div className="bg-blue-50 p-4 rounded-lg">
-          <h3 className="font-bold text-lg text-blue-800">
-            Resultados del filtro: {filterSummary.count} productos encontrados
+        <div className="bg-[var(--bg-secondary)] bg-opacity-50 border border-[var(--border-color)] p-4 rounded-lg">
+          <h3 className="font-bold text-lg text-[var(--accent-primary)]">
+            Filter Results: {filterSummary.count} products found
           </h3>
           {highlightedProductIds.length > 0 ? (
             <div className="mt-2">
-              <p className="text-blue-600">
-                Productos destacados en el carrusel
+              <p className="text-[var(--text-secondary)]">
+                Products highlighted in the carousel
               </p>
               <div className="flex flex-wrap gap-2 mt-3">
                 {filterSummary.category && (
-                  <span className="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm flex items-center">
-                    <span className="font-medium mr-1">Categoría:</span> {filterSummary.category}
+                  <span className="px-3 py-1 bg-[var(--accent-primary)] bg-opacity-10 text-[var(--accent-primary)] rounded-full text-sm flex items-center">
+                    <span className="font-medium mr-1">Category:</span> {filterSummary.category}
                   </span>
                 )}
                 {filterSummary.color && (
-                  <span className="px-3 py-1 bg-purple-100 text-purple-800 rounded-full text-sm flex items-center">
+                  <span className="px-3 py-1 bg-purple-900 bg-opacity-20 text-purple-400 rounded-full text-sm flex items-center">
                     <span className="font-medium mr-1">Color:</span> {filterSummary.color}
                   </span>
                 )}
                 {filterSummary.maxPrice && (
-                  <span className="px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm flex items-center">
-                    <span className="font-medium mr-1">Precio:</span> &lt; ${filterSummary.maxPrice}
+                  <span className="px-3 py-1 bg-green-900 bg-opacity-20 text-green-400 rounded-full text-sm flex items-center">
+                    <span className="font-medium mr-1">Price:</span> &lt; ${filterSummary.maxPrice}
                   </span>
                 )}
               </div>
             </div>
           ) : (
-            <p className="text-yellow-600 mt-1">
-              No se encontraron productos que coincidan con tu búsqueda. Mostrando todos los productos disponibles.
+            <p className="text-yellow-500 mt-1">
+              No products matching your search were found. Showing all available products.
             </p>
           )}
         </div>
