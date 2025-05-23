@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import ProductCarousel from "./product-carousel";
 
 type ProductResult = {
   name: string;
@@ -17,9 +18,9 @@ const mockProducts: ProductResult[] = [
   { name: "Casual Canvas Shoes", category: "sneakers", color: "blue", price: 49.99, imageUrl: "/images/blue-sneakers.jpg" },
   { name: "Cotton T-Shirt", category: "shirts", color: "pink", price: 19.99, imageUrl: "/images/pink-shirt-men.jpg" },
   { name: "Designer Luxury Shirt", category: "shirts", color: "black", price: 129.99, imageUrl: "/images/black-gucci-shirt-men.jpg" },
-  { name: "Classic Oxford Shirt", category: "shirts", color: "white", price: 49.99 },
-  { name: "Leather Jacket", category: "jackets", color: "black", price: 149.99 },
-  { name: "Winter Parka", category: "jackets", color: "black", price: 199.99 },
+  { name: "Classic Oxford Shirt", category: "shirts", color: "white", price: 49.99, imageUrl: "/images/white-shirt-men.jpg" },
+  { name: "Leather Jacket", category: "jackets", color: "black", price: 149.99, imageUrl: "/images/black-jacket.jpg" },
+  { name: "Winter Parka", category: "jackets", color: "black", price: 199.99, imageUrl: "/images/winter-parka-black.jpg" },
 ];
 
 type ProductResultsProps = {
@@ -58,7 +59,14 @@ const colorMapping: Record<string, string> = {
 };
 
 export default function ProductResults({ toolCall }: ProductResultsProps) {
-  const [results, setResults] = useState<ProductResult[]>([]);
+  const [highlightedProductIds, setHighlightedProductIds] = useState<string[]>([]);
+  const [hasFilters, setHasFilters] = useState(false);
+  const [filterSummary, setFilterSummary] = useState<{
+    category?: string;
+    color?: string;
+    maxPrice?: number;
+    count: number;
+  }>({ count: 0 });
 
   useEffect(() => {
     if (toolCall && toolCall.name === "filter_products") {
@@ -110,12 +118,18 @@ export default function ProductResults({ toolCall }: ProductResultsProps) {
         // En caso de error, mostrar algunos productos predeterminados
         filterProducts({ category: "sneakers", color: "red" });
       }
+    } else {
+      // Si no hay toolCall, mostrar todos los productos sin destacar ninguno
+      setHighlightedProductIds([]);
+      setHasFilters(false);
+      setFilterSummary({ count: 0 });
     }
   }, [toolCall]);
 
   const filterProducts = (filters: any) => {
     let filtered = [...mockProducts];
     console.log("Filtering with raw filters:", filters);
+    setHasFilters(true);
 
     // Filter by category
     if (filters.category) {
@@ -143,65 +157,75 @@ export default function ProductResults({ toolCall }: ProductResultsProps) {
     }
 
     console.log("Found products:", filtered.length);
-    setResults(filtered);
+    
+    // Actualizar el resumen del filtro
+    setFilterSummary({
+      category: filters.category,
+      color: filters.color,
+      maxPrice: filters.max_price,
+      count: filtered.length
+    });
+    
+    // En lugar de actualizar los resultados, actualizamos los IDs destacados
+    const highlightedIds = filtered.map((_, index) => {
+      // Encontrar el índice correspondiente en mockProducts
+      const mockIndex = mockProducts.findIndex(mock => 
+        mock.name === filtered[index].name && 
+        mock.category === filtered[index].category &&
+        mock.price === filtered[index].price
+      );
+      return String(mockIndex);
+    }).filter(id => id !== '-1');
+    
+    setHighlightedProductIds(highlightedIds);
   };
 
-  if (!results.length) {
-    return (
-      <div className="p-4 bg-yellow-50 rounded-md">
-        <p className="text-yellow-700">No se encontraron productos que coincidan con tu búsqueda.</p>
-        <p className="text-sm text-gray-500 mt-2">Intenta con otros términos de búsqueda.</p>
-      </div>
-    );
-  }
-
   return (
-    <div className="space-y-4">
-      <h3 className="font-bold text-lg">
-        Encontrados: {results.length} {results[0].category === "sneakers" ? "zapatillas" : results[0].category} 
-        {results[0].color ? ` ${results[0].color === "red" ? "rojas" : results[0].color}` : ""}
-        {results[0].maxPrice ? ` menos de $${results[0].maxPrice}` : ""}
-      </h3>
-      
-      {/* Debug info */}
-      <div className="p-2 bg-gray-100 rounded text-xs mb-2">
-        <p>Debug: {results.length} productos encontrados</p>
-        <p>Primer producto: {JSON.stringify(results[0])}</p>
+    <div className="space-y-6">
+      {/* Carrusel siempre visible en la parte superior */}
+      <div className="w-full mb-6">
+        <ProductCarousel 
+          products={mockProducts} 
+          highlighted={highlightedProductIds} 
+        />
       </div>
       
-      <div className="space-y-3 max-h-96 overflow-auto pr-2 grid grid-cols-1 sm:grid-cols-2 gap-3">
-        {results.map((product, i) => (
-          <div key={i} className="border rounded-lg p-3 hover:shadow-md transition-shadow">
-            <div className="flex items-center">
-              <div className="w-16 h-16 rounded flex items-center justify-center mr-3" 
-                   style={product.imageUrl ? {} : {backgroundColor: product.color || '#e5e7eb'}}>
-                {product.imageUrl ? (
-                  <img 
-                    src={product.imageUrl} 
-                    alt={product.name} 
-                    className="w-full h-full object-cover rounded" 
-                    onError={(e) => {
-                      console.error('Error loading image:', product.imageUrl);
-                      e.currentTarget.style.display = 'none';
-                      e.currentTarget.parentElement!.style.backgroundColor = product.color || '#e5e7eb';
-                      e.currentTarget.parentElement!.innerHTML = `<div class="text-xs text-white text-center font-medium">${product.category.substr(0, 3).toUpperCase()}</div>`;
-                    }}
-                  />
-                ) : (
-                  <div className="text-xs text-white text-center font-medium">
-                    {product.category.substr(0, 3).toUpperCase()}
-                  </div>
+      {/* Información del filtro aplicado (si existe) */}
+      {hasFilters && (
+        <div className="bg-blue-50 p-4 rounded-lg">
+          <h3 className="font-bold text-lg text-blue-800">
+            Resultados del filtro: {filterSummary.count} productos encontrados
+          </h3>
+          {highlightedProductIds.length > 0 ? (
+            <div className="mt-2">
+              <p className="text-blue-600">
+                Productos destacados en el carrusel
+              </p>
+              <div className="flex flex-wrap gap-2 mt-3">
+                {filterSummary.category && (
+                  <span className="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm flex items-center">
+                    <span className="font-medium mr-1">Categoría:</span> {filterSummary.category}
+                  </span>
+                )}
+                {filterSummary.color && (
+                  <span className="px-3 py-1 bg-purple-100 text-purple-800 rounded-full text-sm flex items-center">
+                    <span className="font-medium mr-1">Color:</span> {filterSummary.color}
+                  </span>
+                )}
+                {filterSummary.maxPrice && (
+                  <span className="px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm flex items-center">
+                    <span className="font-medium mr-1">Precio:</span> &lt; ${filterSummary.maxPrice}
+                  </span>
                 )}
               </div>
-              <div>
-                <p className="font-medium">{product.name}</p>
-                <p className="text-green-700 font-medium">${product.price.toFixed(2)}</p>
-                <p className="text-xs text-gray-500">{product.color}</p>
-              </div>
             </div>
-          </div>
-        ))}
-      </div>
+          ) : (
+            <p className="text-yellow-600 mt-1">
+              No se encontraron productos que coincidan con tu búsqueda. Mostrando todos los productos disponibles.
+            </p>
+          )}
+        </div>
+      )}
     </div>
   );
 } 
