@@ -430,7 +430,154 @@ export default function EcommerceApp() {
       <div className="p-4 max-w-6xl mx-auto">
         <header className="mb-6 text-center">
           <div className="flex items-center justify-center gap-4 mb-3">
-            <img src="/icon.png" alt="Shopping Assistant Icon" className="w-16 h-16" />
+            {/* Modern Robot SVG Icon */}
+            <div className="w-16 h-16 relative">
+              <svg
+                viewBox="0 0 64 64"
+                className="w-full h-full"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                {/* Robot Head */}
+                <rect
+                  x="16"
+                  y="12"
+                  width="32"
+                  height="24"
+                  rx="6"
+                  fill="url(#robotGradient)"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                />
+                
+                {/* Antenna */}
+                <line
+                  x1="32"
+                  y1="12"
+                  x2="32"
+                  y2="6"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                />
+                <circle
+                  cx="32"
+                  cy="6"
+                  r="2"
+                  fill="#10b981"
+                  stroke="currentColor"
+                  strokeWidth="1"
+                />
+                
+                {/* Eyes */}
+                <circle cx="24" cy="22" r="3" fill="#3b82f6" />
+                <circle cx="40" cy="22" r="3" fill="#3b82f6" />
+                <circle cx="24" cy="22" r="1.5" fill="white" />
+                <circle cx="40" cy="22" r="1.5" fill="white" />
+                
+                {/* Mouth/Speaker */}
+                <rect
+                  x="28"
+                  y="28"
+                  width="8"
+                  height="4"
+                  rx="2"
+                  fill="currentColor"
+                  opacity="0.3"
+                />
+                <line x1="30" y1="30" x2="34" y2="30" stroke="currentColor" strokeWidth="1" />
+                
+                {/* Body */}
+                <rect
+                  x="20"
+                  y="36"
+                  width="24"
+                  height="20"
+                  rx="4"
+                  fill="url(#robotBodyGradient)"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                />
+                
+                {/* Chest Panel */}
+                <rect
+                  x="26"
+                  y="42"
+                  width="12"
+                  height="8"
+                  rx="2"
+                  fill="currentColor"
+                  opacity="0.1"
+                />
+                <circle cx="29" cy="45" r="1" fill="#10b981" />
+                <circle cx="32" cy="45" r="1" fill="#f59e0b" />
+                <circle cx="35" cy="45" r="1" fill="#ef4444" />
+                
+                {/* Arms */}
+                <rect
+                  x="12"
+                  y="38"
+                  width="6"
+                  height="12"
+                  rx="3"
+                  fill="url(#robotGradient)"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                />
+                <rect
+                  x="46"
+                  y="38"
+                  width="6"
+                  height="12"
+                  rx="3"
+                  fill="url(#robotGradient)"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                />
+                
+                {/* Voice/Sound Waves */}
+                <path
+                  d="M 8 24 Q 4 24 4 20 Q 4 16 8 16"
+                  stroke="#10b981"
+                  strokeWidth="2"
+                  fill="none"
+                  opacity="0.7"
+                />
+                <path
+                  d="M 56 24 Q 60 24 60 20 Q 60 16 56 16"
+                  stroke="#10b981"
+                  strokeWidth="2"
+                  fill="none"
+                  opacity="0.7"
+                />
+                <path
+                  d="M 6 28 Q 0 28 0 20 Q 0 12 6 12"
+                  stroke="#10b981"
+                  strokeWidth="1.5"
+                  fill="none"
+                  opacity="0.5"
+                />
+                <path
+                  d="M 58 28 Q 64 28 64 20 Q 64 12 58 12"
+                  stroke="#10b981"
+                  strokeWidth="1.5"
+                  fill="none"
+                  opacity="0.5"
+                />
+
+                {/* Gradients */}
+                <defs>
+                  <linearGradient id="robotGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stopColor="#6366f1" stopOpacity="0.8" />
+                    <stop offset="100%" stopColor="#8b5cf6" stopOpacity="0.9" />
+                  </linearGradient>
+                  <linearGradient id="robotBodyGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stopColor="#4f46e5" stopOpacity="0.7" />
+                    <stop offset="100%" stopColor="#7c3aed" stopOpacity="0.8" />
+                  </linearGradient>
+                </defs>
+              </svg>
+            </div>
             <h1 className="text-3xl font-bold text-[var(--text-primary)]">Voice Shopping Assistant</h1>
           </div>
           <p className="text-[var(--text-secondary)]">Navigate our catalog using your voice - try saying &quot;Show me red sneakers&quot;</p>
