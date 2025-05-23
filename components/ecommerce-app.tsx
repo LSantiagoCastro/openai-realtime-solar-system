@@ -1,8 +1,6 @@
 "use client";
 
 import { useEffect, useRef, useState, useCallback } from "react";
-import Controls from "@/components/controls";
-import Logs from "@/components/logs";
 import ProductResults from "@/components/product-results";
 import { INSTRUCTIONS, TOOLS } from "@/lib/config";
 import { BASE_URL, MODEL } from "@/lib/constants";
@@ -435,7 +433,7 @@ export default function EcommerceApp() {
             <img src="/icon.png" alt="Shopping Assistant Icon" className="w-16 h-16" />
             <h1 className="text-3xl font-bold text-[var(--text-primary)]">Voice Shopping Assistant</h1>
           </div>
-          <p className="text-[var(--text-secondary)]">Navigate our catalog using your voice - try saying "Show me red sneakers"</p>
+          <p className="text-[var(--text-secondary)]">Navigate our catalog using your voice - try saying &quot;Show me red sneakers&quot;</p>
         </header>
         
         {/* Sección principal - Carrusel primero */}

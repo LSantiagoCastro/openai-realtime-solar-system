@@ -203,7 +203,7 @@ export default function ProductResults({ toolCall }: ProductResultsProps) {
               </p>
               <div className="flex flex-wrap gap-2 mt-3">
                 {filterSummary.category && (
-                  <span className="px-3 py-1 bg-[var(--accent-primary)] bg-opacity-10 text-[var(--accent-primary)] rounded-full text-sm flex items-center">
+                  <span className="px-3 py-1 bg-[var(--accent-primary)] bg-opacity-10 text-white rounded-full text-sm flex items-center">
                     <span className="font-medium mr-1">Category:</span> {filterSummary.category}
                   </span>
                 )}
